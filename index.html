@@ -4,8 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schematics Region Integrator</title>
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/common.css">
+
+    <script type="text/javascript" src="js/lib/pako.js"></script>
+    <script type="text/javascript" src="js/lib/nbt.js"></script>
+
+    <script src="js/common.js"></script>
 </head>
 <body>
-    
+    <header id="header">
+        <h1>header</h1>
+    </header>
+    <main id="main">
+        <div id="reg-mng">
+            <div id="schems" class="mng-box">
+                <div id="schems-bar" class="toolbar">
+                    <figure><a id="upload-file"><img src="svg/upload.svg" alt="Upload files"></a></figure>
+                </div>
+
+                <div>
+                    <ul id="schem-list"></ul>
+                </div>
+            </div>
+        
+            <span id="res-0" class="res"></span>
+        
+            <div id="regs" class="mng-box">
+                <div id="regs-bar" class="toolbar">
+                    <figure><a id="add-region"><img src="svg/add.svg" alt="Add region to integrate regions"></a></figure>
+                </div>
+
+                <div id="regs-lists">
+                </div>
+            </div>
+        
+            <span id="res-1" class="res"></span>
+        
+            <div id="sel-regs" class="mng-box">
+                <div id="sel-regs-bar" class="toolbar">
+                    <figure><a id="download"><img src="svg/download.svg" alt="Download integrated .litematic file"></a></figure>
+                    <figure><a id="trash"><img src="svg/trash.svg" alt="Trash added region"></a></figure>
+                    <!-- <figure><a id="rename"><img src="svg/rename.svg" alt="Trash added region"></a></figure> -->
+                </div>
+                <div>
+                    <ul id="sel-reg-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="file-storage"></div>
+    </main>
 </body>
 </html>

@@ -1,0 +1,221 @@
+header {
+    text-align: center;
+    background-color: #010409;
+    color: white;
+    border-bottom: 1px solid #21262d;
+    box-sizing: border-box;
+    line-height: 0;
+    padding: 6vh 0;
+}
+
+main {
+    background-color: #0d1117;
+    padding: 50px 0 100px 0;
+    box-sizing: border-box;
+    #reg-mng {
+        display: flex;
+        width: 90vw;
+        height: 100%;
+        margin: 0 auto;
+        padding: 10px;
+
+        .mng-box {
+            border: 1px solid #30363d;
+            border-radius: 5px;
+            margin: 0 3px;
+            min-width: 5%;
+        }
+
+        #schems {
+            width: 20%;
+            resize: horizontal;
+            overflow: auto;
+
+            #schem-list {
+                color: #fff;
+                padding: 3px;
+
+                li {
+                    width: 100%;
+                    height: 30px;
+                    margin-bottom: 3px;
+
+                    a {
+                        display: inline-block;
+                        box-sizing: border-box;
+                        width: 100%;
+                        line-height: 0;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        padding: 15px 5px;
+                        font-size: 0.9rem;
+                        letter-spacing: 0.05rem;
+                        border-radius: 4px;
+                    }
+                    a:hover {
+                        background-color: #292f36;
+                        cursor: pointer;
+                    }
+                }
+
+                #opening-schem {
+                    background-color: #292f36;
+                }
+            }
+        }
+        #regs {
+            width: 10%;
+            resize: horizontal;
+            overflow: auto;
+
+            #regs-lists {
+                #opening-reg {
+                    display: block;
+                }
+                ul {
+                    color: #fff;
+                    padding: 3px;
+                    display: none;
+
+                    li {
+                        width: 100%;
+                        height: 30px;
+                        margin-bottom: 3px;
+                    
+                        a {
+                            display: inline-block;
+                            box-sizing: border-box;
+                            width: 100%;
+                            line-height: 0;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding: 15px 5px;
+                            font-size: 0.9rem;
+                            letter-spacing: 0.05rem;
+                            border-radius: 4px;
+                        }
+                        a:hover {
+                            background-color: #292f36;
+                            cursor: pointer;
+                        }
+
+                        #selecting-reg {
+                            background-color: #292f36;
+                        }
+                    }
+                }
+            }
+        }
+        #sel-regs {
+            flex-basis: 0;
+            flex-grow: 1;
+
+            ul#sel-reg-list {
+                padding: 3px;
+                list-style-type: none;
+                li {
+                    width: 100%;
+                    height: 30px;
+                    margin-bottom: 3px;
+                    a {
+                        display: inline-block;
+                        box-sizing: border-box;
+                        width: 100%;
+                        line-height: 0;
+                        height: 100%;
+                        vertical-align: middle;
+                        padding: 0 2px;
+                        border-radius: 4px;
+
+                        .radiosel {
+                            $radio-size: 16px;
+                            
+                            position: relative;
+                            width: $radio-size;
+                            height: $radio-size;
+                            margin: 7px 8px 7px 7px;
+                            background-color: #0000;
+                            z-index: 1000;
+                        }
+                        .radiosel:hover {
+                            cursor: pointer;
+                        }
+                        .textinput {
+                            color: #fff;
+                            box-sizing: border-box;
+                            height: 26px;
+                            margin: 2px 0;
+                            background-color: #0000;
+                            border: none;
+                            border-radius: 6px;
+                            padding: 1px 4px;
+                            font-size: 0.9rem;
+                            width: 30%;
+
+                            background-color: #0d1117;
+                            border: 1px solid #30363d;
+                        }
+                    }
+                    a:hover {
+                        background-color: #292f36;
+                        cursor: pointer;
+                    }
+                    #selecting-added-reg {
+                        background-color: #292f36;
+                    }
+                }
+            }
+        }
+
+        .toolbar {
+            display: flex;
+            height: 35px;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 0 2.5px;
+
+            $iconButtonSize: 30px;
+
+            figure {
+                height: $iconButtonSize;
+                width: $iconButtonSize;
+                padding: calc((35px - $iconButtonSize) / 2);
+
+                a {
+                    display: inline-block;
+                    padding: calc(($iconButtonSize - 16px) / 2);
+                    border-radius: 7px;
+
+                    img {
+                        width: 16px;
+                        height: auto;
+                        user-select: none;
+                    }
+                }
+
+                a:hover {
+                    background-color: #292f36;
+                    cursor: pointer;
+                }
+                a:active {
+                    background-color: #353b42;
+                }
+            }
+        }
+
+        .res {
+            // position: relative;
+            width: 0.5px;
+            padding-right: 0.5px;
+            height: 90%;
+            margin: auto 0;
+            background-color: rgb(48, 54, 61);
+        }
+    }
+
+    #file-storage {
+        display: none;
+    }
+}
