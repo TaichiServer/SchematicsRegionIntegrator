@@ -433,4 +433,12 @@ main #dl-popup #popup-window #main-window #right-window #res-download #merge-dl:
 main #dl-popup #popup-window #main-window #right-window #res-download #set-dl:hover {
   cursor: pointer;
   background-color: #ee8c3c;
+}
+main #copyright {
+  position: fixed;
+  color: #fff;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  font-size: 0.9rem;
 }/*# sourceMappingURL=common.css.map */

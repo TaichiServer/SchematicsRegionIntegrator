@@ -479,4 +479,13 @@ main {
             }
         }
     }
+
+    #copyright {
+        position: fixed;
+        color: #fff;
+        left: 50%;
+        bottom: 10px;
+        transform: translate(-50%, 0);
+        font-size: 0.9rem;
+    }
 }
