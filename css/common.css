@@ -27,6 +27,8 @@ main #reg-mng .mng-box {
   min-width: 5%;
 }
 main #reg-mng #schems {
+  display: flex;
+  flex-direction: column;
   width: 20%;
   resize: horizontal;
   overflow: auto;
@@ -34,6 +36,8 @@ main #reg-mng #schems {
 main #reg-mng #schems #schem-list {
   color: #fff;
   padding: 3px;
+  height: 100%;
+  overflow: auto;
 }
 main #reg-mng #schems #schem-list li {
   width: 100%;
@@ -61,9 +65,14 @@ main #reg-mng #schems #schem-list #opening-schem {
   background-color: #292f36;
 }
 main #reg-mng #regs {
+  display: flex;
+  flex-direction: column;
   width: 10%;
   resize: horizontal;
   overflow: auto;
+}
+main #reg-mng #regs #regs-lists {
+  height: 100%;
 }
 main #reg-mng #regs #regs-lists #opening-reg {
   display: block;
@@ -99,12 +108,16 @@ main #reg-mng #regs #regs-lists ul li #selecting-reg {
   background-color: #292f36;
 }
 main #reg-mng #sel-regs {
+  display: flex;
+  flex-direction: column;
   flex-basis: 0;
   flex-grow: 1;
 }
 main #reg-mng #sel-regs ul#sel-reg-list {
+  height: 100%;
   padding: 3px;
   list-style-type: none;
+  overflow: auto;
 }
 main #reg-mng #sel-regs ul#sel-reg-list li {
   width: 100%;
@@ -112,7 +125,7 @@ main #reg-mng #sel-regs ul#sel-reg-list li {
   margin-bottom: 3px;
 }
 main #reg-mng #sel-regs ul#sel-reg-list li a {
-  display: inline-block;
+  display: flex;
   box-sizing: border-box;
   width: 100%;
   line-height: 0;
@@ -127,7 +140,6 @@ main #reg-mng #sel-regs ul#sel-reg-list li a .radiosel {
   height: 16px;
   margin: 7px 8px 7px 7px;
   background-color: rgba(0, 0, 0, 0);
-  z-index: 1000;
 }
 main #reg-mng #sel-regs ul#sel-reg-list li a .radiosel:hover {
   cursor: pointer;
@@ -142,7 +154,7 @@ main #reg-mng #sel-regs ul#sel-reg-list li a .textinput {
   border-radius: 6px;
   padding: 1px 4px;
   font-size: 0.9rem;
-  width: 30%;
+  width: 100%;
   background-color: #0d1117;
   border: 1px solid #30363d;
 }
@@ -193,4 +205,232 @@ main #reg-mng .res {
 }
 main #file-storage {
   display: none;
+}
+main #dl-popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+main #dl-popup #outta-window {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+main #dl-popup #popup-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #0d1117;
+  width: 40%;
+  height: 50%;
+  border-radius: 20px;
+  border: 2px solid #30363d;
+  z-index: 1001;
+}
+main #dl-popup #popup-window #close-popup {
+  box-sizing: border-box;
+  display: flex;
+  height: 35px;
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 2.5px 5px;
+  border-radius: 20px 20px 0 0;
+  justify-content: right;
+}
+main #dl-popup #popup-window #close-popup figure {
+  transform: rotate(45deg);
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 7px;
+}
+main #dl-popup #popup-window #close-popup figure a {
+  display: inline-block;
+}
+main #dl-popup #popup-window #close-popup figure a img {
+  width: 16px;
+  height: auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+main #dl-popup #popup-window #close-popup figure a:hover {
+  cursor: pointer;
+}
+main #dl-popup #popup-window #main-window {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100% - 35px);
+  padding: 15px;
+}
+main #dl-popup #popup-window #main-window #left-window {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+  height: 100%;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem {
+  width: 100%;
+  margin-bottom: 7px;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem p {
+  margin: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel {
+  position: relative;
+  height: 30px;
+  font-size: 0.9rem;
+  line-height: 0;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-selecting {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  line-height: 0;
+  padding: 15px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-selecting:hover {
+  background-color: #292f36;
+  cursor: pointer;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-option {
+  display: none;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 35px;
+  list-style-type: none;
+  width: 100%;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  max-height: 50vh;
+  overflow: auto;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-option li {
+  line-height: 0;
+  padding: 15px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #30363d;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  background-color: #161b22;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-option li:last-child {
+  border-bottom: none;
+}
+main #dl-popup #popup-window #main-window #left-window #base-schem #base-schem-sel #base-schem-option li:hover {
+  background-color: #292f36;
+  cursor: pointer;
+}
+main #dl-popup #popup-window #main-window #left-window #selected-reg {
+  height: calc(100% - 67px);
+}
+main #dl-popup #popup-window #main-window #left-window #selected-reg p {
+  margin: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+main #dl-popup #popup-window #main-window #left-window #selected-reg #selected-reg-list-pr {
+  height: calc(100% - 38px);
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  padding: 3px 15px;
+  overflow: auto;
+}
+main #dl-popup #popup-window #main-window #left-window #selected-reg #selected-reg-list-pr ul {
+  list-style-type: none;
+  height: 100%;
+}
+main #dl-popup #popup-window #main-window #left-window #selected-reg #selected-reg-list-pr ul li {
+  line-height: 0;
+  padding: 15px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+main #dl-popup #popup-window #main-window #right-window {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+}
+main #dl-popup #popup-window #main-window #right-window p {
+  padding: 15px 0;
+  margin: 0 7px;
+  line-height: 0;
+}
+main #dl-popup #popup-window #main-window #right-window input {
+  color: #fff;
+  height: 32px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 1px 15px;
+  font-size: 0.9rem;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  box-sizing: border-box;
+}
+main #dl-popup #popup-window #main-window #right-window #filename {
+  margin-bottom: 5px;
+}
+main #dl-popup #popup-window #main-window #right-window #schemname {
+  margin-bottom: 5px;
+}
+main #dl-popup #popup-window #main-window #right-window #author {
+  margin-bottom: 5px;
+}
+main #dl-popup #popup-window #main-window #right-window #res-download {
+  margin-top: 20px;
+  text-align: center;
+}
+main #dl-popup #popup-window #main-window #right-window #res-download #merge-dl {
+  box-sizing: border-box;
+  height: 30px;
+  padding: 20px;
+  line-height: 0;
+  background-color: #f07b1b;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+main #dl-popup #popup-window #main-window #right-window #res-download #set-dl {
+  box-sizing: border-box;
+  height: 30px;
+  padding: 20px;
+  line-height: 0;
+  background-color: #f07b1b;
+  border-radius: 5px;
+}
+main #dl-popup #popup-window #main-window #right-window #res-download #merge-dl:hover {
+  cursor: pointer;
+  background-color: #ee8c3c;
+}
+main #dl-popup #popup-window #main-window #right-window #res-download #set-dl:hover {
+  cursor: pointer;
+  background-color: #ee8c3c;
 }/*# sourceMappingURL=common.css.map */

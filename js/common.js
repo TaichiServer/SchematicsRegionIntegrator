@@ -11,6 +11,20 @@ window.addEventListener("DOMContentLoaded", () => {
     const uploadFileButton = document.getElementById("upload-file");
     const addRegionButton = document.getElementById("add-region");
     const trashButton = document.getElementById("trash");
+    const downloadButton = document.getElementById("download");
+    const closePopupButton = document.getElementById("close-popup-button");
+    
+    const downloadPopup = document.getElementById("dl-popup");
+    const outOfPopupWindow = document.getElementById("outta-window");
+    const baseSchemSelection = document.getElementById("base-schem-option");
+    const baseSchemSelecting = document.getElementById("base-schem-selecting");
+    const selectedRegionsList = document.getElementById("selected-reg-list");
+    const dlFilename = document.getElementById("filename");
+    const dlSchemname = document.getElementById("schemname");
+    const dlAuthor = document.getElementById("author");
+    const mergeDownload = document.getElementById("merge-dl")
+    const setDownload = document.getElementById("set-dl")
+
     const fileStorage = document.getElementById("file-storage");
     const schemList = document.getElementById("schem-list");
     const regionsList = document.getElementById("regs-lists");
@@ -49,7 +63,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const clickAddRegion = (e) => {
+    const clickAddRegion = () => {
         let selectingReg = document.getElementById("selecting-reg");
         if (selectingReg === null) { return; }
         let uuid = selectingReg.parentNode.parentNode.getAttribute("uuid");
@@ -65,6 +79,9 @@ window.addEventListener("DOMContentLoaded", () => {
         let a = document.createElement("a");
         let input = document.createElement("input");
         let radio = document.createElement("input");
+
+        
+        li.region = selectingReg.region;
 
         a.onclick = clickAddedRegion;
         input.type = "text";
@@ -143,6 +160,51 @@ window.addEventListener("DOMContentLoaded", () => {
             document.getElementById("selecting-added-reg").parentElement.remove();
         } catch (_) {}
     }
+    
+    const displaySchemSelectOpt = () => {
+        baseSchemSelection.style.display = "block";
+    }
+    const hideSchemSelectOpt = () => {
+        baseSchemSelection.style.display = "none";
+    }
+    const toggleSelectionDisplay = () => {
+        if (baseSchemSelection.style.display == "none") {
+            displaySchemSelectOpt();
+        } else {
+            hideSchemSelectOpt();
+        }
+    }
+
+    const setNowSelectingBaseSchem = (e) => {
+        baseSchemSelecting.textContent = e.target.textContent;
+        baseSchemSelecting.setAttribute("uuid", e.target.getAttribute("uuid"));
+
+        let filename = e.target.textContent;
+        if (filename.endsWith(".litematic")) {
+            filename = filename.slice(0, -10);
+        } else if (filename.endsWith(".nbt")) {
+            filename = filename.slice(0, -4)
+        }
+        dlFilename.getElementsByTagName("input")[0].value = filename;
+
+        reader.readAsArrayBuffer(
+            document.querySelector(`a[uuid="${e.target.getAttribute("uuid")}"]`).file
+        );
+        reader.onload = () => {
+            let arrayBuffer = reader.result
+            let uint8View = new Uint8Array(arrayBuffer);
+            if (uint8View[0] === 31 && uint8View[1] === 139) {
+                arrayBuffer = pako.ungzip(arrayBuffer).buffer;
+            }
+            nbt.parse(arrayBuffer, (err, d) => {
+                if (err) { throw err; }
+
+                dlSchemname.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Name"].value;
+                dlAuthor.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Author"].value;
+            })
+        }
+        hideSchemSelectOpt();
+    }
 
     uploadFileButton.addEventListener("click", async () => {
         const files = await showOpenFileDialog();
@@ -151,13 +213,190 @@ window.addEventListener("DOMContentLoaded", () => {
             let a = document.createElement("a");
             a.textContent = files[index].name;
             a.setAttribute("uuid", crypto.randomUUID());
-            a.onclick = clickSchem
+            a.onclick = clickSchem;
             a.file = files[index];
             li.appendChild(a);
             schemList.appendChild(li);
         }
     });
+
+    const setBaseSchem = () => {
+        let firstOpt = schemList.children[0].getElementsByTagName("a")[0];
+        let filename = firstOpt.textContent;
+        baseSchemSelecting.innerText = filename;
+        baseSchemSelecting.setAttribute("uuid", firstOpt.getAttribute("uuid"));
+        
+        if (filename.endsWith(".litematic")) {
+            filename = filename.slice(0, -10);
+        } else if (filename.endsWith(".nbt")) {
+            filename = filename.slice(0, -4)
+        }
+        dlFilename.getElementsByTagName("input")[0].value = filename;
+
+        reader.readAsArrayBuffer(firstOpt.file);
+        reader.onload = () => {
+            let arrayBuffer = reader.result
+            let uint8View = new Uint8Array(arrayBuffer);
+            if (uint8View[0] === 31 && uint8View[1] === 139) {
+                arrayBuffer = pako.ungzip(arrayBuffer).buffer;
+            }
+            nbt.parse(arrayBuffer, (err, d) => {
+                if (err) { throw err; }
+
+                dlSchemname.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Name"].value;
+                dlAuthor.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Author"].value;
+            })
+        }
+
+
+        baseSchemSelection.innerHTML = "";
+        for (let reg of schemList.children) {
+            let opt = document.createElement("li");
+            opt.textContent = reg.getElementsByTagName("a")[0].textContent;
+            opt.setAttribute("uuid", reg.getElementsByTagName("a")[0].getAttribute("uuid"));
+            opt.onclick = setNowSelectingBaseSchem;
+            baseSchemSelection.appendChild(opt);
+        }
+    }
+    const setSelectedRegionsToPopupList = () => {
+        selectedRegionsList.innerHTML = "";
+
+        for (let reg of selectedRegList.children) {
+            let li = document.createElement("li");
+            li.textContent = reg.getElementsByClassName("textinput")[0].value;
+            selectedRegionsList.appendChild(li);
+        }
+    }
+
     addRegionButton.addEventListener("click", clickAddRegion);
     trashButton.addEventListener("click", trashRegion);
+    baseSchemSelecting.addEventListener("click", toggleSelectionDisplay);
+    document.addEventListener("click", (e) => {
+        if (e.target.getAttribute("id") == "base-schem-selecting") {
+            return;
+        }
+        hideSchemSelectOpt();
+    });
+
+    downloadButton.addEventListener("click", () => {
+        try {
+            setBaseSchem();
+            setSelectedRegionsToPopupList();
+        } catch (e) { 
+            console.log(e);
+            return;
+        };
+        downloadPopup.style.display = "block";
+    });
+    closePopupButton.addEventListener("click", () => {
+        downloadPopup.style.display = "none";
+    });
+    outOfPopupWindow.addEventListener("click", () => {
+        downloadPopup.style.display = "none";
+    });
+
+    const downloadFile = (file) => {
+        let link = document.createElement("a");
+        link.download = dlFilename.getElementsByTagName("input")[0].value + ".litematic";
+        link.href = URL.createObjectURL(new Blob([file], {type: "application.octet-stream"}));
+        link.dataset.downloadurl = ["application/octet-stream", link.download, link.href].join(":");
+        link.click();
+    }
+    const mergeDownloadSchem = () => {
+        let baseSchemFile = document.querySelector(`a[uuid="${baseSchemSelecting.getAttribute("uuid")}"]`).file;
+        reader.readAsArrayBuffer(baseSchemFile);
+        reader.onload = () => {
+            let arrayBuffer = reader.result
+            let uint8View = new Uint8Array(arrayBuffer);
+            if (uint8View[0] === 31 && uint8View[1] === 139) {
+                arrayBuffer = pako.ungzip(arrayBuffer).buffer;
+            }
+
+            nbt.parse(arrayBuffer, (err, d) => {
+                if (err) { throw err; }
+                for (let reg of selectedRegList.children) {
+                    let indexValue = 0;
+                    let existRegionNames = Object.keys(d.value["Regions"].value);
+                    let regName = reg.getElementsByClassName("textinput")[0].value
+                    if (existRegionNames.includes(regName)) {
+                        indexValue ++;
+                        while (true) {
+                            if (existRegionNames.includes(regName + "_" + indexValue.toString())) {
+                                indexValue ++;
+                            } else {
+                                regName = regName + "_" + indexValue.toString();
+                                break;
+                            }
+                        }
+                        d.value["Regions"].value[regName] = reg.region;
+                    } else {
+                        d.value["Regions"].value[regName] = reg.region;
+                    }
+                }
+
+                d.value["Metadata"].value["Name"].value = dlSchemname.getElementsByTagName("input")[0].value;
+                d.value["Metadata"].value["Author"].value = dlAuthor.getElementsByTagName("input")[0].value;
+
+                let res = nbt.writeUncompressed({
+                    name: "",
+                    value: d.value
+                });
+                downloadFile(res);
+
+                // dlSchemname.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Name"].value;
+                // dlAuthor.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Author"].value;
+            })
+        }
+    }
+    const setDownloadSchem = () => {
+        let baseSchemFile = document.querySelector(`a[uuid="${baseSchemSelecting.getAttribute("uuid")}"]`).file;
+        reader.readAsArrayBuffer(baseSchemFile);
+        reader.onload = () => {
+            let arrayBuffer = reader.result
+            let uint8View = new Uint8Array(arrayBuffer);
+            if (uint8View[0] === 31 && uint8View[1] === 139) {
+                arrayBuffer = pako.ungzip(arrayBuffer).buffer;
+            }
+
+            nbt.parse(arrayBuffer, (err, d) => {
+                if (err) { throw err; }
+
+                let resRegions = {};
+                for (let reg of selectedRegList.children) {
+                    let indexValue = 0;
+                    let existRegionNames = Object.keys(resRegions);
+                    let regName = reg.getElementsByClassName("textinput")[0].value
+                    if (existRegionNames.includes(regName)) {
+                        indexValue ++;
+                        while (true) {
+                            if (existRegionNames.includes(regName + "_" + indexValue.toString())) {
+                                indexValue ++;
+                            } else {
+                                regName = regName + "_" + indexValue.toString();
+                                break;
+                            }
+                        }
+                        resRegions[regName] = reg.region;
+                    } else {
+                        resRegions[regName] = reg.region;
+                    }
+                }
+                d.value["Regions"].value = resRegions;
+                d.value["Metadata"].value["Name"].value = dlSchemname.getElementsByTagName("input")[0].value;
+                d.value["Metadata"].value["Author"].value = dlAuthor.getElementsByTagName("input")[0].value;
+
+                let res = nbt.writeUncompressed({
+                    name: "",
+                    value: d.value
+                });
+                downloadFile(res);
+
+                // dlSchemname.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Name"].value;
+                // dlAuthor.getElementsByTagName("input")[0].value = d.value["Metadata"].value["Author"].value;
+            })
+        }
+    }
+    mergeDownload.addEventListener("click", mergeDownloadSchem);
+    setDownload.addEventListener("click", setDownloadSchem);
 });
 window.addEventListener("resize", fixSize)

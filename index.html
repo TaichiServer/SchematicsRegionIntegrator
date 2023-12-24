@@ -15,7 +15,7 @@
 </head>
 <body>
     <header id="header">
-        <h1>header</h1>
+        <h1>Schematics Regions Integrator</h1>
     </header>
     <main id="main">
         <div id="reg-mng">
@@ -24,9 +24,7 @@
                     <figure><a id="upload-file"><img src="svg/upload.svg" alt="Upload files"></a></figure>
                 </div>
 
-                <div>
-                    <ul id="schem-list"></ul>
-                </div>
+                <ul id="schem-list"></ul>
             </div>
         
             <span id="res-0" class="res"></span>
@@ -48,8 +46,52 @@
                     <figure><a id="trash"><img src="svg/trash.svg" alt="Trash added region"></a></figure>
                     <!-- <figure><a id="rename"><img src="svg/rename.svg" alt="Trash added region"></a></figure> -->
                 </div>
-                <div>
-                    <ul id="sel-reg-list"></ul>
+                <ul id="sel-reg-list"></ul>
+            </div>
+        </div>
+
+        <div id="dl-popup">
+            <div id="outta-window"></div>
+            <div id="popup-window">
+                <div id="close-popup">
+                    <figure><a id="close-popup-button"><img src="svg/add.svg" alt="close icon"></a></figure>
+                </div>
+
+                <div id="main-window">
+                    <div id="left-window">
+                        <div id="base-schem">
+                            <p> Base schematic</p>
+                            <div id="base-schem-sel">
+                                <div id="base-schem-selecting"></div>
+                                <ul id="base-schem-option"></ul>
+                            </div>
+                        </div>
+
+                        <div id="selected-reg">
+                            <p>Selected regions</p>
+                            <div id="selected-reg-list-pr">
+                                <ul id="selected-reg-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="right-window">
+                        <div id="filename">
+                            <p>File name</p>
+                            <input type="text">
+                        </div>
+                        <div id="schemname">
+                            <p>Schematic name</p>
+                            <input type="text">
+                        </div>
+                        <div id="author">
+                            <p>Author</p>
+                            <input type="text">
+                        </div>
+                        <div id="res-download">
+                            <div id="merge-dl">Merge Download</div>
+                            <div id="set-dl">Set Download</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
